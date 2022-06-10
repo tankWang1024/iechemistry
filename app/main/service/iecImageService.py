@@ -110,11 +110,14 @@ def fit(method, axiosx, axiosy, imageid, remark, userid, concentration_range):
     print(concentration)
     print(x)
     print(y)
-    pre_index = int(concentration_range.split(" ")[0])-1
-    next_index = int(concentration_range.split(" ")[1])
-    print(pre_index)
-    print(next_index)
-    a, b, r2 = yolov3Api.fit(method, x[pre_index:next_index], y[pre_index:next_index], remark, axiosx)
+    if concentration_range != "" :
+        pre_index = int(concentration_range.split("-")[0])-1
+        next_index = int(concentration_range.split("-")[1])
+        print(pre_index)
+        print(next_index)
+        a, b, r2 = yolov3Api.fit(method, x[pre_index:next_index], y[pre_index:next_index], remark, axiosx)
+    else:
+        a, b, r2 = yolov3Api.fit(method, x, y, remark, axiosx)
     # tolov3处理完这里还要上传到七牛云,然后存数据库,然后在返回
     uid = str(random.randint(0, 99999))
     rs = uploadFileByQiniu(os.path.join(UPLOAD_DIR_SCATTER, remark + ".jpg"), remark + "_" + uid + "_scatter.jpg")

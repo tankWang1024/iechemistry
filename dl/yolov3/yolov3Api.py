@@ -12,10 +12,12 @@ import numpy as np
 from sklearn import linear_model
 import pathlib
 import os
-from sklearn.svm import LinearSVR
 from sklearn import tree
 from sklearn import neighbors
 from sklearn import ensemble
+from sklearn.svm import LinearSVR
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 
 from . import cleanPath
 
@@ -134,13 +136,22 @@ LassoLars_model = linear_model.LassoLars(alpha=.1, normalize=False)
 # 贝叶斯回归 贝叶斯岭回归
 BayesianRidge_model = linear_model.BayesianRidge()
 
+
 # SVM
-SVM_model = LinearSVR()
+# 去均值和方差归一化
+def StandardLinearSVR(epsilon=0.1):
+    return Pipeline([
+        ('std_scaler', StandardScaler()),
+        ('linearSVR', LinearSVR(epsilon=epsilon))
+    ])
+
+
+SVM_model = StandardLinearSVR()
 # 决策树
 DecisionTreeRegressor_model = tree.DecisionTreeRegressor()
 # KNN  不是线性不做了
 # KNeighborsRegressor_model = neighbors.KNeighborsRegressor(5)
-# 随机森林 todo 没有洗漱截距属性,是线性拟合吗？
+# 随机森林 todo 没有系数截距属性,是线性拟合吗？
 RandomForestRegressor_model = ensemble.RandomForestRegressor(n_estimators=20)
 
 # Stochastic Gradient Descent    SGD适合具有大量训练样本
@@ -275,7 +286,7 @@ def orrh(imgname, xmin=1 / 5, xmax=4 / 5, ymin=3 / 6, ymax=5 / 6):
 '''
 
 
-def fit(method: str, axiosx_data: list, axiosy_data: list, remark: str, xlabel="color chanel") :
+def fit(method: str, axiosx_data: list, axiosy_data: list, remark: str, xlabel="color chanel"):
     print('fit')
     print(method)
     model = RegressionMap[method]

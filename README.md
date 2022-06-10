@@ -1,4 +1,12 @@
 # iechemistry
+### 模型训练
+https://github.com/tankWang1024/yolov3-pytorch-paper
+
+### 前端微信小程序代码
+https://github.com/tankWang1024/iechemistry-wechat
+
+### 后端代码
+此仓库为小程序后端代码。
 智能化学平台,基于python flask的荧光实验分析处理平台
 
 ```
